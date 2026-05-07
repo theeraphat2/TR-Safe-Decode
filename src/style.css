@@ -302,6 +302,22 @@ button.action:hover {
   background: #1d4ed8;
 }
 
+button.action.secondary {
+  background: #64748b;
+}
+
+button.action.secondary:hover {
+  background: #475569;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+
 .result {
   margin-top: 1.75rem;
 }

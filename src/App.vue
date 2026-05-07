@@ -57,29 +57,10 @@
         </div>
       </div>
 
-      <div class="range-slider">
-        <div class="slider-track" :style="trackStyle"></div>
-        <input
-          class="range-input range-left"
-          type="range"
-          min="1"
-          max="9999"
-          step="1"
-          :value="first"
-          @input="updateFirst"
-        />
-        <input
-          class="range-input range-right"
-          type="range"
-          min="1"
-          max="9999"
-          step="1"
-          :value="second"
-          @input="updateSecond"
-        />
+      <div class="action-buttons">
+        <button @click="calculate" class="action">Find medium number</button>
+        <button @click="randomPick" class="action secondary">Random pick</button>
       </div>
-
-      <button @click="calculate" class="action">Find medium number</button>
 
       <section v-if="steps.length" class="result">
         <p class="single-step">
@@ -91,6 +72,18 @@
           >{{ steps[0].mid }}</strong>
         </p>
         <p class="hint small">Drag the result into either input to replace that value.</p>
+      </section>
+
+      <section v-if="randomResult !== null" class="result">
+        <p class="single-step">
+          Random number between {{ first }} and {{ second }} is
+          <strong
+            class="draggable-result"
+            draggable="true"
+            @dragstart="startRandomDrag"
+          >{{ randomResult }}</strong>
+        </p>
+        <p class="hint small">Drag the random result into either input to replace that value.</p>
       </section>
 
       <p v-else class="hint">Type two numbers and click the button to calculate.</p>
@@ -107,6 +100,7 @@ const steps = ref([])
 const minValue = 1
 const maxValue = 9999
 const darkMode = ref(false)
+const randomResult = ref(null)
 
 const trackStyle = computed(() => {
   const leftPercent = ((first.value - minValue) / (maxValue - minValue)) * 100
@@ -147,6 +141,12 @@ function startDrag(event) {
   event.dataTransfer.effectAllowed = 'copy'
 }
 
+function startRandomDrag(event) {
+  if (randomResult.value === null) return
+  event.dataTransfer.setData('text/plain', String(randomResult.value))
+  event.dataTransfer.effectAllowed = 'copy'
+}
+
 function handleFirstDrop(event) {
   const value = Number(event.dataTransfer.getData('text/plain'))
   if (Number.isNaN(value)) return
@@ -169,5 +169,11 @@ function calculate() {
 
   const mid = Math.round((left + right) / 2)
   steps.value = [{ left, right, mid }]
+}
+
+function randomPick() {
+  const min = Math.min(first.value, second.value)
+  const max = Math.max(first.value, second.value)
+  randomResult.value = Math.floor(Math.random() * (max - min + 1)) + min
 }
 </script>
