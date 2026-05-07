@@ -57,6 +57,28 @@
         </div>
       </div>
 
+      <div class="range-slider">
+        <div class="slider-track" :style="trackStyle"></div>
+        <input
+          class="range-input range-left"
+          type="range"
+          min="1"
+          max="9999"
+          step="1"
+          :value="first"
+          @input="updateFirst"
+        />
+        <input
+          class="range-input range-right"
+          type="range"
+          min="1"
+          max="9999"
+          step="1"
+          :value="second"
+          @input="updateSecond"
+        />
+      </div>
+
       <div class="action-buttons">
         <button @click="calculate" class="action">Find medium number</button>
         <button @click="randomPick" class="action secondary">Random pick</button>
@@ -169,11 +191,13 @@ function calculate() {
 
   const mid = Math.round((left + right) / 2)
   steps.value = [{ left, right, mid }]
+  randomResult.value = null
 }
 
 function randomPick() {
   const min = Math.min(first.value, second.value)
   const max = Math.max(first.value, second.value)
   randomResult.value = Math.floor(Math.random() * (max - min + 1)) + min
+  steps.value = []
 }
 </script>
