@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Medium Number Finder
 
 A simple Vue app to input two numbers and find the medium number between them.
@@ -28,3 +29,6 @@ npm run build
    ```
 
 If you use a repository named `username.github.io`, you can also publish the `dist` output directly.
+=======
+# TR-Safe-Decode
+>>>>>>> b6b86ee35e4e66676af946a4c158be190d4dbfc9
